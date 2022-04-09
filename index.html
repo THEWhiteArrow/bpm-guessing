@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>BPM Checker</title>
+   <link rel="stylesheet" href="./public/styles/bootstrap.min.css">
+   <link rel="stylesheet" href="./public/styles/neumo.css">
+   <link rel="stylesheet" href="./public/styles/app.css">
+</head>
+
+<body class="neumo-container container py-5 flex-column">
+
+   <h1 class="display-4 mb-5">Beats Per Minute Checker</h1>
+
+   <form id="form" class="d-flex flex-column">
+      <label for="searchbar" class="lead fs-4">Enter track's name to search on Spotify</label>
+      <div id="clickBoundary" class="input-group my-2">
+         <input type="text" class="form-control" id="searchbar" placeholder="name" aria-label="searchbar">
+         <div id="trackContainer" class="container d-flex flex-column neumo-shadow-inset rounded-2">
+         </div>
+      </div>
+
+   </form>
+
+   <section id="data" class="mt-5">
+      <h3 class="lead fs-2">Track : <span id="trackName">Title</span></h3>
+
+      <div class="row d-flex">
+         <img class="img-sm d-none d-md-flex col-md-3" id="trackImg" src="./public/assets/icon.png" alt="track image">
+         <div class="col-12 col-md-9">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ad? Animi expedita, est repellat qui quae
+            nisi? Deleniti beatae eius eveniet, iusto voluptatibus excepturi animi temporibus quo ducimus architecto
+            blanditiis, fuga commodi quod suscipit facilis id quam assumenda rem a magnam. Totam ad fugiat dignissimos?
+            Omnis iure ipsum adipisci ullam ratione, ex saepe voluptas vero beatae impedit maxime debitis, quia aut nam
+            temporibus quam numquam sunt veniam sequi. Voluptate repudiandae tenetur fugiat rerum. Dolores repellendus
+            odio atque, eius velit vero magnam sapiente beatae architecto quo dolore quisquam ea molestias dignissimos,
+            vitae quia maxime provident ipsam blanditiis? Aliquam tenetur cupiditate eveniet.
+         </div>
+      </div>
+
+      <div class="row pt-4">
+         <div class="col-5 d-flex flex-column">
+            <h3 class="lead fs-4">Manage song</h3>
+            <div class="d-flex d-flex flex-grow-1 justify-content-around flex-wrap">
+               <button class="btn btn-primary col-6 col-md-3">Play</button>
+               <button class="btn btn-primary col-6 col-md-3">Stop</button>
+               <button class="btn btn-primary col-12 mt-2 mt-md-0 col-md-3">Restart</button>
+            </div>
+         </div>
+
+         <div class="col-7 d-flex flex-column ">
+            <h3 class="lead fs-4">Guess the song's bpm</h3>
+            <form action="" id="bpmChecker" class="">
+               <div class="input-group mb-2">
+                  <input type="number" class="form-control" id="bpmInput" placeholder="bpm" aria-label="bpmInput"
+                     min="1" max="300">
+               </div>
+               <button type="submit" class="btn btn-success col-12">Check</button>
+            </form>
+         </div>
+      </div>
+
+      <div class="row pt-4">
+         <div class="col-3">
+            <h5 class="lead fs-4">Evaluation</h5>
+            <div>---</div>
+         </div>
+         <div class="col-3">
+            <h5 class="lead fs-4">Error</h5>
+            <div>---</div>
+         </div>
+         <div class="col-3">
+            <h5 class="lead fs-4">Rating</h5>
+            <div>---</div>
+         </div>
+         <div class="col-3">
+            <h5 class="lead fs-4">Advise</h5>
+            <div>---</div>
+         </div>
+      </div>
+   </section>
+
+
+
+   <script src="./public/javascripts/neumo.js"></script>
+   <script src="./public/javascripts/modules.js"></script>
+   <script src="./public/javascripts/script.js"></script>
+</body>
+
+</html>
