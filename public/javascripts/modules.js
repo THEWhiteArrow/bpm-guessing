@@ -1,7 +1,7 @@
 const advise = (() => {
-   const terrible = 'try harder you suck'
+   const terrible = 'definitely not your cup of tea'
    const bad = "it is not that easy for you is it?"
-   const average = 'come on, be better than others lol'
+   const average = 'come on, you can do better lol'
    const good = 'ur getting good at that'
    const decent = 'my man! good job'
    const excellent = "wow! that's the spirit! gj!"
@@ -39,6 +39,19 @@ const spotify = (() => {
       return data;
    }
 
+   const _getRecommendation = async () => {
+      const token = await _getToken();
+      const result = await fetch(`https://api.spotify.com/v1/recommendations?limit=1&market=PL&seed_genres=classical,pop,anime,rock,rap`, {
+         method: 'GET',
+         headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+         }
+      })
+      const data = await result.json();
+      return data;
+   }
+
    const _getToken = async () => {
       const result = await fetch('https://accounts.spotify.com/api/token', {
          method: 'POST',
@@ -51,7 +64,7 @@ const spotify = (() => {
       const data = await result.json();
       return data.access_token;
    }
-   return { _getTrack, _getAudioAnalysis };
+   return { _getTrack, _getAudioAnalysis, _getRecommendation };
 
 })();
 
@@ -215,10 +228,30 @@ const app = (() => {
       else statsAdvise.innerText = advise.terrible;
    }
 
+   const setupRecommendation = async () => {
+      const t = (await spotify._getRecommendation()).tracks[0];
+      if (t.preview_url == null) return setupRecommendation();
+      const trackId = t.id;
+      const imgUrl = t.album.images[0].url;
+      const soundUrl = t.preview_url;
+      const trackName = t.name;
+      const artistName = t.artists[0].name;
+
+      trackNameDisplay.innerText = `${trackName} | ${artistName}`;
+      trackImgDisplay.src = imgUrl;
+
+
+      clearTrackBtns();
+      sound = new Audio(soundUrl);
+      setTrackBtns();
+
+      bpm = (await spotify._getAudioAnalysis(trackId)).track.tempo;
+   }
 
    const init = () => {
       searchbar.addEventListener('input', manageSearchbar);
       guessForm.addEventListener('submit', evaluateGuess);
+      setupRecommendation();
    }
 
    return { init }
