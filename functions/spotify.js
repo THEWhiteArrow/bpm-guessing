@@ -35,7 +35,7 @@ const spotify = (() => {
 
    const _getRecommendation = async () => {
       const token = await _getToken();
-      const result = await fetch(`https://api.spotify.com/v1/recommendations?limit=1&market=PL&seed_genres=classical,pop,anime,rock,rap`, {
+      const result = await fetch(`https://api.spotify.com/v1/recommendations?limit=1&market=PL&seed_genres=classical,pop,soundtrack,rock,anime`, {
          method: 'GET',
          headers: {
             'Authorization': 'Bearer ' + token,

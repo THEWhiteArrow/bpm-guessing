@@ -32,8 +32,8 @@ button.neumo-reset:focus:before,
 button.neumo-reset:active:before{
    transition-delay:0.15s;
    transition-duration:0.35s;
-   box-shadow: inset 3px 3px 5px #cbced1,
-               inset -3px -3px 5px #fafafa !important;
+   box-shadow: inset 5px 5px 5px #cbced1,
+               inset -5px -5px 5px #fafafa !important;
 }
 button.neumo-reset:focus,
 button.neumo-reset:active{ 
@@ -50,13 +50,13 @@ button.neumo-reset:active{
  
 
 .neumo-shadow{
-   box-shadow:3px 3px 7px #cbced1,
-               -3px -3px 7px #fafafa !important;
+   box-shadow:5px 5px 7px #cbced1,
+               -5px -5px 7px #fafafa !important;
 }
 
 .neumo-shadow-inset{
-   box-shadow: inset 3px 3px 5px #cbced1,
-               inset -3px -3px 5px #fafafa !important;
+   box-shadow: inset 5px 5px 5px #cbced1,
+               inset -5px -5px 5px #fafafa !important;
 }
          
 .neumo-hide{ 

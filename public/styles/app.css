@@ -30,5 +30,8 @@ body{
 .track:hover{
    background-color:#dee2e5 !important;
 }
+.focus-dark:focus{
+   background-color:#dee2e5 !important;
+}
 
  

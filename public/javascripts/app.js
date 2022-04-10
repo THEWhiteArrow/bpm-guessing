@@ -1,10 +1,10 @@
-
 const app = (() => {
    const searchbar = document.querySelector('#searchbar');
    const guessForm = document.querySelector('#guessForm');
    const trackContainer = document.querySelector('#trackContainer');
    const clickBoundary = document.querySelector('#clickBoundary');
    const linkIcon = document.querySelector("link[rel~='icon']");
+   const randomBtn = document.querySelector("#randomBtn");
 
    const trackNameDisplay = document.querySelector('#trackName');
    const trackImgDisplay = document.querySelector('#trackImg');
@@ -28,10 +28,11 @@ const app = (() => {
    }
 
 
+
+
    const getData = async (url) => {
       return await (await fetch(url)).json();
    }
-
 
    const manageSearchbar = async (e) => {
       e.preventDefault();
@@ -47,7 +48,7 @@ const app = (() => {
       tracks.forEach(t => {
          if (t.preview_url != null) {
             trackContainer.innerHTML += `
-            <div id="${t.id}" class="track col-12 d-flex py-2" data-spotify-sound-url="${t.preview_url}">
+            <div id="${t.id}" class="focus-dark track col-12 d-flex py-2" data-spotify-sound-url="${t.preview_url}" tabindex="0">
                <img class="img-track" src="${t.album.images[2].url}" alt="${t.album.images[0].url}"/>
                <h4 class="track-name ms-2 mb-0 lead fs-6 d-flex align-items-center">${t.name}</h4>
                <h4 class="track-artist-name ms-2 lead fs-6 pb-0 mb-0 d-flex align-items-center">${t.artists[0].name}</h4>
@@ -67,18 +68,21 @@ const app = (() => {
       tracksElements.forEach(el => el.addEventListener('click', setTrack));
    }
 
-   async function setTrack() {
-      const trackId = this.id;
-      const imgUrl = this.querySelector('img').alt;
-      const soundUrl = this.getAttribute('data-spotify-sound-url');
-      const trackName = this.querySelector('.track-name').innerText;
-      const artistName = this.querySelector('.track-artist-name').innerText;
+   async function setTrack(el = null) {
 
+      const trackId = el == null ? this.id : el.id;
+      const imgUrl = el == null ? this.querySelector('img').alt : el.querySelector('img').alt;
+      const soundUrl = el == null ? this.getAttribute('data-spotify-sound-url') : el.getAttribute('data-spotify-sound-url');
+      const trackName = el == null ? this.querySelector('.track-name').innerText : el.querySelector('.track-name').innerText;
+      const artistName = el == null ? this.querySelector('.track-artist-name').innerText : el.querySelector('.track-artist-name').innerText;
+
+      console.log(el, imgUrl)
       trackNameDisplay.innerText = `${trackName} | ${artistName}`;
       trackImgDisplay.src = imgUrl;
 
       clearTracks();
       clearTrackBtns();
+      resetStatistics();
       setIcon(imgUrl);
 
       sound = new Audio(soundUrl);
@@ -124,6 +128,7 @@ const app = (() => {
    const stopTrack = () => (sound.pause());
    const backwardsTrack = () => (sound.currentTime -= 5);
    const forwardsTrack = () => (sound.currentTime += 5);
+
    const resetBtn = () => {
       if (sound == null) return;
       sound.pause();
@@ -134,16 +139,26 @@ const app = (() => {
       const tracksElements = document.querySelectorAll('.track');
       tracksElements.forEach(el => el.removeEventListener('click', setTrack));
       trackContainer.innerHTML = null;
-      searchbar.value += ' ';
+      // searchbar.value += ' ';
       document.removeEventListener('click', clearOnClickTrackContainer);
       document.removeEventListener('keydown', clearOnKeydownTrackContainer);
    }
+
    const clearOnKeydownTrackContainer = (e) => {
       const { key } = e;
-      if (key == "Escape" || key == "Tab") {
+      if (key == 'Escape')
          clearTracks();
+      else if (key == 'Enter') {
+         const tracks = document.querySelectorAll('.track')
+         tracks.forEach(el => {
+            if (el == document.activeElement) {
+               setTrack(el);
+               return;
+            }
+         });
       }
    }
+
    const clearOnClickTrackContainer = (e) => {
       const withinBoundaries = e.composedPath().includes(clickBoundary);
       if (!withinBoundaries)
@@ -154,10 +169,16 @@ const app = (() => {
 
    const evaluateGuess = (e) => {
       e.preventDefault();
-      if (bpm == null) return;
-
-      const guess = guessForm[0].value;
+      const guess = Number(guessForm[0].value);
+      if (bpm == null || !guess) return;
       setStatistics(guess);
+   }
+
+   const resetStatistics = () => {
+      statsEvaluation.innerText = '---';
+      statsError.innerText = '---';
+      statsBpm.innerText = '---';
+      statsAdvise.innerText = '---';
    }
 
    const setStatistics = (g) => {
@@ -201,21 +222,22 @@ const app = (() => {
 
 
       clearTrackBtns();
+      resetStatistics();
       setIcon(imgUrl);
       sound = new Audio(soundUrl);
       setTrackBtns();
 
       const analysis = (await getData(`/api/spotify?q=a&id=${trackId}`)).data;
       bpm = analysis.track.tempo;
+      randomBtn.blur();
    }
 
    const init = () => {
       searchbar.addEventListener('input', manageSearchbar);
       guessForm.addEventListener('submit', evaluateGuess);
+      randomBtn.addEventListener('click', setupRecommendation);
       setupRecommendation();
    }
 
    return { init }
 })();
-
-
