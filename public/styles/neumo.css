@@ -8,7 +8,9 @@
    color:#555 !important;
    background-color:#ecf0f3 !important;
    border:none;
-   
+}
+
+.neumo-reset:not(.animation-default){
    transition:all 0.25s ease-in-out ;
 }
 .neumo-reset:hover{ 

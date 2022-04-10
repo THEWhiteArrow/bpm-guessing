@@ -6,6 +6,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>BPM Checker</title>
+   <link rel="shortcut icon" href="./public/assets/icon.png" type="image/png">
    <link rel="stylesheet" href="./public/styles/bootstrap.min.css">
    <link rel="stylesheet" href="./public/styles/neumo.css">
    <link rel="stylesheet" href="./public/styles/app.css">
@@ -18,7 +19,7 @@
    <form id="form" class="d-flex flex-column">
       <label for="searchbar" class="lead fs-4">Enter track's name to search on Spotify</label>
       <div id="clickBoundary" class="input-group my-2">
-         <input type="text" class="form-control" id="searchbar" placeholder="name" aria-label="searchbar">
+         <input type="text" class="form-control" id="searchbar" placeholder="Search song" aria-label="searchbar">
          <div id="trackContainer" class="container d-flex flex-column neumo-shadow-inset rounded-2">
          </div>
       </div>
@@ -29,8 +30,9 @@
       <h3 class="lead fs-2">Track : <span id="trackName">Title</span></h3>
 
       <div class="row d-flex">
-         <img class="img-sm d-none d-md-flex col-md-3" id="trackImg" src="./public/assets/icon.png" alt="track image">
-         <div class="col-12 col-md-9">
+         <img class="animation-default img-sm d-none d-md-flex col-md-3" id="trackImg" src="./public/assets/icon.png"
+            alt="track image" data-tilt data-tilt-max="5" data-tilt-speed="200" data-tilt-scale="1.04">
+         <div id="trackDesc" class="col-12 col-md-9">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ad? Animi expedita, est repellat qui quae
             nisi? Deleniti beatae eius eveniet, iusto voluptatibus excepturi animi temporibus quo ducimus architecto
             blanditiis, fuga commodi quod suscipit facilis id quam assumenda rem a magnam. Totam ad fugiat dignissimos?
@@ -45,17 +47,19 @@
          <div class="col-5 d-flex flex-column">
             <h3 class="lead fs-4">Manage song</h3>
             <div class="d-flex d-flex flex-grow-1 justify-content-around flex-wrap">
-               <button class="btn btn-primary col-6 col-md-3">Play</button>
-               <button class="btn btn-primary col-6 col-md-3">Stop</button>
-               <button class="btn btn-primary col-12 mt-2 mt-md-0 col-md-3">Restart</button>
+               <button id="playBtn" class="btn btn-primary col-5 col-lg-2">Play</button>
+               <button id="stopBtn" class="btn btn-primary col-5 col-lg-2">Stop</button>
+               <button id="backwardsBtn" class="btn btn-primary mt-2 mt-lg-0 col-5 col-lg-2">
+                  << </button>
+                     <button id="forwardsBtn" class="btn btn-primary mt-2 mt-lg-0 col-5 col-lg-2">>></button>
             </div>
          </div>
 
          <div class="col-7 d-flex flex-column ">
             <h3 class="lead fs-4">Guess the song's bpm</h3>
-            <form action="" id="bpmChecker" class="">
+            <form action="" id="guessForm" class="">
                <div class="input-group mb-2">
-                  <input type="number" class="form-control" id="bpmInput" placeholder="bpm" aria-label="bpmInput"
+                  <input type="number" class="form-control" id="bpmInput" placeholder="Bpm" aria-label="bpmInput"
                      min="1" max="300">
                </div>
                <button type="submit" class="btn btn-success col-12">Check</button>
@@ -66,25 +70,25 @@
       <div class="row pt-4">
          <div class="col-3">
             <h5 class="lead fs-4">Evaluation</h5>
-            <div>---</div>
+            <span id="statsEvaluation" class="lead fs-5">---</span>
          </div>
          <div class="col-3">
             <h5 class="lead fs-4">Error</h5>
-            <div>---</div>
+            <span id="statsError" class="lead fs-5">---</span>
          </div>
          <div class="col-3">
-            <h5 class="lead fs-4">Rating</h5>
-            <div>---</div>
+            <h5 class="lead fs-4">Bpm</h5>
+            <span id="statsBpm" class="lead fs-5">---</span>
          </div>
          <div class="col-3">
             <h5 class="lead fs-4">Advise</h5>
-            <div>---</div>
+            <span id="statsAdvise" class="lead fs-5">---</span>
          </div>
       </div>
    </section>
 
-
-
+   <script src="./public/javascripts/tilt.min.js"></script>
+   <script src="./public/javascripts/api.js"></script>
    <script src="./public/javascripts/neumo.js"></script>
    <script src="./public/javascripts/modules.js"></script>
    <script src="./public/javascripts/script.js"></script>
