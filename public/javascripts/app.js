@@ -36,10 +36,10 @@ const app = (() => {
    const manageSearchbar = async (e) => {
       e.preventDefault();
       e.stopPropagation();
+      trackContainer.innerHTML = null;
 
       if (searchbar.value == '' || !appReady) return;
       appReady = false;
-      trackContainer.innerHTML = null;
 
       const { data } = await getData(`/api/spotify?q=t&id=${searchbar.value}`);
       const tracks = data.tracks.items;
