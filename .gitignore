@@ -1,1 +1,3 @@
 /public/javascripts/api.js
+node_modules
+.env

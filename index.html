@@ -5,7 +5,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>BPM Guessing</title>
+   <title>BPM | Guessing</title>
    <link rel="shortcut icon" href="./public/assets/icon.png" type="image/png">
    <link rel="stylesheet" href="./public/styles/bootstrap.min.css">
    <link rel="stylesheet" href="./public/styles/neumo.css">
@@ -27,7 +27,16 @@
    </form>
 
    <section id="data" class="mt-5">
-      <h3 class="lead fs-2">Track : <span id="trackName">Title</span></h3>
+      <h3 class="lead fs-2">
+         <span>Track : </span>
+         <span id="trackName">
+            <span>Loading...</span>
+            <div class="spinner-border text-secondary fs-6" role="status">
+               <span class="visually-hidden">Loading...</span>
+            </div>
+         </span>
+      </h3>
+
 
       <div class="row d-flex">
          <img class="animation-default img-sm d-none d-md-flex col-md-3" id="trackImg" src="./public/assets/icon.png"
@@ -35,11 +44,11 @@
          <div id="trackDesc" class="col-12 col-md-9 d-flex flex-column">
             <h5 class="lead fs-5 mb-2">How does it work?</h5>
             <span class="lead fs-5 mb-2">
-               The engine is in general fairly simple. Chose a song. Listen to it. Guess correctly its bpm. Maybe
+               In general, the engine is fairly simple. Chose a song. Listen to it. Guess its bpm. Maybe
                you will become a rythm master one day. Good luck!
             </span>
-            <span class="lead fs-5">Down below you can manage playing of the song and test yourself how good you feel
-               about the rythm.</span>
+            <span class="lead fs-5">Down below you can manage playing of the song and test yourself how precise your
+               guesses can be.</span>
          </div>
       </div>
 
@@ -88,9 +97,9 @@
    </section>
 
    <script src="./public/javascripts/tilt.min.js"></script>
-   <script src="./public/javascripts/api.js"></script>
    <script src="./public/javascripts/neumo.js"></script>
-   <script src="./public/javascripts/modules.js"></script>
+   <script src="./public/javascripts/app.js"></script>
+
    <script src="./public/javascripts/script.js"></script>
 </body>
 

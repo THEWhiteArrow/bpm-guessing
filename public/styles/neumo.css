@@ -17,6 +17,7 @@
    background-color:#e7ebee !important;
 }
 button.neumo-reset{position:relative;}
+
 button.neumo-reset:before{
    content:'';
    position:absolute;
@@ -26,13 +27,16 @@ button.neumo-reset:before{
    box-shadow: inset 0px 0px 0px #cbced1,
                inset -0px -0px 0px #fafafa !important;
 }
-button.neumo-reset:focus:before,button.neumo-reset:active:before{
+
+button.neumo-reset:focus:before,
+button.neumo-reset:active:before{
    transition-delay:0.15s;
    transition-duration:0.35s;
    box-shadow: inset 3px 3px 5px #cbced1,
                inset -3px -3px 5px #fafafa !important;
 }
-button.neumo-reset:focus,button.neumo-reset:active{ 
+button.neumo-reset:focus,
+button.neumo-reset:active{ 
    background-color:#ecf0f3 !important; 
    box-shadow:0px 0px 0px #cbced1,
             -0px -0px 0px #fafafa !important;
