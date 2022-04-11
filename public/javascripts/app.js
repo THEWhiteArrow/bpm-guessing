@@ -42,12 +42,10 @@ const app = (() => {
       if (searchbar.value == '' || !appReady) return;
       appReady = false;
 
-      const { data } = await getData(`/api/spotify?q=t&id=${searchbar.value}`);
-      const tracks = data.tracks.items;
+      const { tracks } = await getData(`/api/spotify?q=getTrack&id=${searchbar.value}`);
 
       tracks.forEach(t => {
-         if (t.preview_url != null) {
-            trackContainer.innerHTML += `
+         trackContainer.innerHTML += `
             <div id="${t.id}" class="focus-dark track col-12 d-flex py-2" data-spotify-sound-url="${t.preview_url}" data-spotify-img-url="${t.album.images[0].url}" tabindex="0">
                <img class="img-track" src="${t.album.images[2].url}" alt="track picture"/>
                <h4 class="lead fs-55 mb-0 ms-2 d-flex align-items-center">
@@ -56,7 +54,6 @@ const app = (() => {
                   <span class="track-artist-name">${t.artists[0].name}</span>
                </h4>   
             </div>`;
-         }
       });
 
       setupTrackListeners();
@@ -87,8 +84,8 @@ const app = (() => {
       sound = new Audio(soundUrl);
       setTrackBtns();
 
-      const analysis = (await getData(`/api/spotify?q=a&id=${trackId}`)).data;
-      bpm = analysis.track.tempo;
+      const { analysis } = (await getData(`/api/spotify?q=getAudioAnalysis&id=${trackId}`));
+      bpm = analysis.tempo;
    }
 
    const blurBtns = () => {
@@ -208,11 +205,9 @@ const app = (() => {
    }
 
    const setupRecommendation = async () => {
-      const { data } = await getData('/api/spotify?q=r');
-      const track = data.tracks[0];
-      if (track.preview_url == null) return setupRecommendation();
+      const { track, analysis } = await getData('/api/spotify?q=getRecommendation');
+      if (track == null) return setupRecommendation();
 
-      const trackId = track.id;
       const imgUrl = track.album.images[0].url;
       const soundUrl = track.preview_url;
       const trackName = track.name;
@@ -229,8 +224,7 @@ const app = (() => {
       sound = new Audio(soundUrl);
       setTrackBtns();
 
-      const analysis = (await getData(`/api/spotify?q=a&id=${trackId}`)).data;
-      bpm = analysis.track.tempo;
+      bpm = analysis.tempo;
       randomBtn.blur();
    }
 
