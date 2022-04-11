@@ -26,6 +26,7 @@ button.neumo-reset:before{
    height:100%;
    box-shadow: inset 0px 0px 0px #cbced1,
                inset -0px -0px 0px #fafafa !important;
+   border-radius:.25rem;
 }
 
 button.neumo-reset:focus:before,

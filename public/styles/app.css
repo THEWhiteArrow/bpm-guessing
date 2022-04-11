@@ -4,14 +4,6 @@ body{
    height:100%;
    width: 100vw;   
 }
-
-.img-sm{ 
-   max-width:200px;
-   object-fit: cover;
-}
-
-
- 
 #trackContainer{
    width:100%;
    position:absolute;
@@ -19,6 +11,10 @@ body{
    left:0;
    z-index:1000;
    background-color:#e3e7ea !important;
+}
+.img-sm{ 
+   max-width:200px;
+   object-fit: cover;
 }
 .img-track{
    width:40px;
@@ -30,6 +26,8 @@ body{
 .track:hover{
    background-color:#dee2e5 !important;
 }
+.fs-55{font-size:1.13rem!important}
+
 .focus-dark:focus{
    background-color:#dee2e5 !important;
 }

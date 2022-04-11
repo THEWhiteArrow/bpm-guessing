@@ -48,18 +48,18 @@ const app = (() => {
       tracks.forEach(t => {
          if (t.preview_url != null) {
             trackContainer.innerHTML += `
-            <div id="${t.id}" class="focus-dark track col-12 d-flex py-2" data-spotify-sound-url="${t.preview_url}" tabindex="0">
-               <img class="img-track" src="${t.album.images[2].url}" alt="${t.album.images[0].url}"/>
-               <h4 class="track-name ms-2 mb-0 lead fs-6 d-flex align-items-center">${t.name}</h4>
-               <h4 class="track-artist-name ms-2 lead fs-6 pb-0 mb-0 d-flex align-items-center">${t.artists[0].name}</h4>
-               </div>`;
+            <div id="${t.id}" class="focus-dark track col-12 d-flex py-2" data-spotify-sound-url="${t.preview_url}" data-spotify-img-url="${t.album.images[0].url}" tabindex="0">
+               <img class="img-track" src="${t.album.images[2].url}" alt="track picture"/>
+               <h4 class="lead fs-55 mb-0 ms-2 d-flex align-items-center">
+                  <span class="track-name">${t.name}</span>
+                  <span>&nbsp;|&nbsp;</span>
+                  <span class="track-artist-name">${t.artists[0].name}</span>
+               </h4>   
+            </div>`;
          }
       });
 
       setupTrackListeners();
-
-      document.addEventListener('click', clearOnClickTrackContainer);
-      document.addEventListener('keydown', clearOnKeydownTrackContainer);
       appReady = true;
    }
 
@@ -68,15 +68,14 @@ const app = (() => {
       tracksElements.forEach(el => el.addEventListener('click', setTrack));
    }
 
-   async function setTrack(el = null) {
+   async function setTrack(e) {
+      e.stopPropagation();
+      const trackId = this.id;
+      const imgUrl = this.getAttribute('data-spotify-img-url');
+      const soundUrl = this.getAttribute('data-spotify-sound-url');
+      const trackName = this.querySelector('.track-name').innerText;
+      const artistName = this.querySelector('.track-artist-name').innerText;
 
-      const trackId = el == null ? this.id : el.id;
-      const imgUrl = el == null ? this.querySelector('img').alt : el.querySelector('img').alt;
-      const soundUrl = el == null ? this.getAttribute('data-spotify-sound-url') : el.getAttribute('data-spotify-sound-url');
-      const trackName = el == null ? this.querySelector('.track-name').innerText : el.querySelector('.track-name').innerText;
-      const artistName = el == null ? this.querySelector('.track-artist-name').innerText : el.querySelector('.track-artist-name').innerText;
-
-      console.log(el, imgUrl)
       trackNameDisplay.innerText = `${trackName} | ${artistName}`;
       trackImgDisplay.src = imgUrl;
 
@@ -136,12 +135,11 @@ const app = (() => {
    }
 
    const clearTracks = () => {
-      const tracksElements = document.querySelectorAll('.track');
-      tracksElements.forEach(el => el.removeEventListener('click', setTrack));
+      const trackElements = document.querySelectorAll('.track');
+      if (!trackElements.length) return;
+
+      trackElements.forEach(el => el.removeEventListener('click', setTrack));
       trackContainer.innerHTML = null;
-      // searchbar.value += ' ';
-      document.removeEventListener('click', clearOnClickTrackContainer);
-      document.removeEventListener('keydown', clearOnKeydownTrackContainer);
    }
 
    const clearOnKeydownTrackContainer = (e) => {
@@ -149,10 +147,12 @@ const app = (() => {
       if (key == 'Escape')
          clearTracks();
       else if (key == 'Enter') {
-         const tracks = document.querySelectorAll('.track')
+         const tracks = document.querySelectorAll('.track');
+         if (!tracks.length) return;
+
          tracks.forEach(el => {
             if (el == document.activeElement) {
-               setTrack(el);
+               el.click();
                return;
             }
          });
@@ -163,6 +163,8 @@ const app = (() => {
       const withinBoundaries = e.composedPath().includes(clickBoundary);
       if (!withinBoundaries)
          clearTracks();
+      else if (!trackContainer.innerHTML.length)
+         searchbar.dispatchEvent(new Event('input'));
    }
 
    const rError = (a, b) => (Math.ceil(Math.abs(b - a) * 100 / b) / 100)
@@ -236,6 +238,8 @@ const app = (() => {
       searchbar.addEventListener('input', manageSearchbar);
       guessForm.addEventListener('submit', evaluateGuess);
       randomBtn.addEventListener('click', setupRecommendation);
+      document.addEventListener('click', clearOnClickTrackContainer);
+      document.addEventListener('keydown', clearOnKeydownTrackContainer);
       setupRecommendation();
    }
 
